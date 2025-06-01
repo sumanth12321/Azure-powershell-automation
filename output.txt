@@ -1,0 +1,5 @@
+Connect-AzAccount -UseDeviceAuthentication
+#Connect to azure account
+New-AzResourceGroup -Name MyResourcegroup -Location canadacentral
+#Create new resource group
+New-AzVM -ResourceGroupName MyResourcegroup -Name VMWin -Location canadacentral -VirtualNetworkName  VMWin-VNet -SubnetName VMWin-Subnet -SecurityGroupName VMWin-NSG -PublicIpAddressName VMWin-PIP -Credential (New-Object PSCredential(azureuser, *****)) -ImageName Win2019Datacenter -Size Standard_DS1_v2
