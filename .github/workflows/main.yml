@@ -1,23 +1,23 @@
-name: Run PowerShell Script
+name: PowerShell Script CI
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'CreateWinVM.ps1'
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  run-script:
+  check-script:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - name: Setup PowerShell
-      uses: actions/setup-powershell@v2
-
-    - name: Run PowerShell Script
+    - name: Run PowerShell script syntax check
       shell: pwsh
-      run: ./CreateWinVM.ps1
+      run: |
+        Get-ChildItem *.ps1 | ForEach-Object {
+          Write-Host "Checking syntax for:" $_.Name
+          $null = Get-Command $_.FullName -ErrorAction Stop
+        }
